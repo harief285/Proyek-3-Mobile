@@ -1,7 +1,7 @@
+import 'package:facialcheck/widget/info.dart';
 import 'package:flutter/material.dart';
-import 'package:facialcheck/resource/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:path/path.dart';
+import 'package:facialcheck/event/event_db.dart';
 
 
 class Login extends StatelessWidget{
@@ -162,7 +162,10 @@ class Login extends StatelessWidget{
                                         ),
                                         onPressed: () {
                                           if (formKey.currentState!.validate()) {
-                                            // Lakukan tindakan yang diinginkan ketika tombol ditekan
+                                          EventDB.login(controllerEmail.text, controllerPass.text);
+                                          Info.snackbar(controllerEmail.text);
+                                          controllerEmail.clear();
+                                          controllerPass.clear();
                                           }
                                         },
                                         child: Text(

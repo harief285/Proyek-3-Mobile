@@ -1,8 +1,10 @@
+import 'package:facialcheck/page/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'page/login.dart';
-
+import 'package:facialcheck/event/event_pref.dart';
+import 'package:facialcheck/model/user.dart';
 void main() {
   runApp(const FacialCheck());
 }
@@ -18,13 +20,11 @@ class FacialCheck extends StatelessWidget {
         textTheme: GoogleFonts.robotoTextTheme(),
       ),
       home: FutureBuilder(
-        future: Future.delayed(Duration(seconds: 2)), // contoh Future yang diinisialisasi dengan delay 2 detik
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Tampilkan indicator loading saat menunggu Future selesai
-          } else {
-            return Login(); // Setelah Future selesai, tampilkan halaman Login
-          }
+        future: EventPref.getUser(),
+        builder: (context, AsyncSnapshot<User?> snapshot) {
+          return snapshot.data == null?
+          Login(): snapshot.data!.type=='0'?
+          Dashboard(): Login();
         },
       ),
     );
