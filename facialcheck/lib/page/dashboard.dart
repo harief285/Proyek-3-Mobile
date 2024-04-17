@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:facialcheck/model/user.dart';
 import 'package:facialcheck/page/login.dart';
@@ -59,18 +60,103 @@ class _Dashboard extends State<Dashboard> {
                         children: [
                           Row(
                             children: [
-                              Text("Hello, Dummy"),
+                              Text("Hi, Dummy" , style: GoogleFonts.inter(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),),
                             ],
                           ),
-                          Row(
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      PopupMenuButton(
+                        child: Image.asset("assets/img/menu.png", width: MediaQuery.of(context).size.width * 0.04),
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.settings, size: 15, color: Colors.black45,),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Setting", style: TextStyle(fontSize: 12),)
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem(
+                              value: 1,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.logout, size: 15, color: Colors.black45,),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("LogOut", style: TextStyle(fontSize: 12),)
+                                ],
+                              ),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          if(value == 0) {
+                            print("settings");
+                          } else if (value == 1) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return AlertDialog(
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.warning_amber),
+                                      Text("LogOut", style: TextStyle(fontSize: 12),)
+                                    ],
+                                  ),
+                                  content: Text("Apakah anda yakin ingin keluar?", style: TextStyle(fontSize: 12),),
+                                  actions: [
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Tidak"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        EventPref.clear();
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                                      },
+                                      child: Text("Ya"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+            Row(
+              children: [
+                Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
                             children: [
-                              Text("Admin", style: TextStyle(fontSize: 12),),
+                              Text("Selamat datang di Aplikasi Facial Check",
+                              style: GoogleFonts.roboto(
+                                fontSize: 10,
+                                color: Color(0xff408CFF)),),
                             ],
                           )
                         ],
-                      )
-                    ],
-                  ),
+                      ),
               ],
             ),
           ],

@@ -125,12 +125,12 @@ class Login extends StatelessWidget{
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => Login()),
-                                        );
-                                      },
+                                      // onTap: () {
+                                      //   Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(builder: (context) => Login()),
+                                      //   );
+                                      // },
                                       child: Text(
                                         "Forgot Password ?",
                                         style: GoogleFonts.inter(
@@ -163,7 +163,6 @@ class Login extends StatelessWidget{
                                         onPressed: () {
                                           if (formKey.currentState!.validate()) {
                                           EventDB.login(controllerEmail.text, controllerPass.text);
-                                          Info.snackbar(controllerEmail.text);
                                           controllerEmail.clear();
                                           controllerPass.clear();
                                           }
@@ -188,12 +187,12 @@ class Login extends StatelessWidget{
                                 mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => Login()),
-                                          );
-                                        },
+                                        // onTap: () {
+                                        //   Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(builder: (context) => Login()),
+                                        //   );
+                                        // },
                                         child: Text(
                                           "Sign Up",
                                           style: TextStyle(

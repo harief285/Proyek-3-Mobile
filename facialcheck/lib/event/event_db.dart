@@ -28,9 +28,7 @@ class EventDB{
           Info.snackbar('Login Berhasil');
           Future.delayed(Duration(milliseconds: 1700),() {
             Get.off(
-              user!.type == '0'?
-              Dashboard():
-              Login()
+              () => user!.type == '0' ? Dashboard() : Login(),
             );
           });
         }else{
