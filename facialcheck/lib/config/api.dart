@@ -1,6 +1,6 @@
 class Api {
 
-  static const host = 'http://192.168.1.9/api-facialcheck';
+  static const host = 'https://api.bowo-store.my.id/';
 
   static String login = '$host/login.php';
   static String list_user = '$host/list_users.php';
