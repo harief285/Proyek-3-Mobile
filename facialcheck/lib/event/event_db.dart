@@ -63,4 +63,29 @@ class EventDB{
     }
     return listUser;
   }
+  static Future<User?> addUser(String name, String email, String password, String passwordcek) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.add_user), body: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'passwordcek': passwordcek
+      });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Success");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              Login(),
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
 }

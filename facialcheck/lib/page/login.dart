@@ -1,3 +1,5 @@
+import 'package:facialcheck/event/event_pref.dart';
+import 'package:facialcheck/page/register.dart';
 import 'package:facialcheck/widget/info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,7 @@ class Login extends StatelessWidget{
   var controllerEmail = TextEditingController();
   var controllerPass = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  
 
 
   Widget build(BuildContext context){
@@ -172,6 +175,7 @@ class Login extends StatelessWidget{
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.white,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
@@ -187,16 +191,16 @@ class Login extends StatelessWidget{
                                 mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     GestureDetector(
-                                        // onTap: () {
-                                        //   Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(builder: (context) => Login()),
-                                        //   );
-                                        // },
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => Register()),
+                                          );
+                                        },
                                         child: Text(
                                           "Sign Up",
                                           style: TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 12,
                                             color: Color(0xff408CFF),
                                             fontWeight: FontWeight.bold
                                           ),

@@ -22,9 +22,21 @@ class FacialCheck extends StatelessWidget {
       home: FutureBuilder(
         future: EventPref.getUser(),
         builder: (context, AsyncSnapshot<User?> snapshot) {
-          return snapshot.data == null?
-          Login(): snapshot.data!.type=='0'?
-          Dashboard(): Login();
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else {
+            if (snapshot.hasData) {
+              if (snapshot.data!.type == '0') {
+                return Dashboard();
+              } else {
+                EventPref.clear();
+                return Login();
+              }
+            } else {
+              EventPref.clear();
+              return Login();
+            }
+          }
         },
       ),
     );
