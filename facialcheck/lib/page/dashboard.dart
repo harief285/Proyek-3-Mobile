@@ -162,6 +162,54 @@ class _Dashboard extends State<Dashboard> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=>));
+          },
+          child: Icon(Icons.document_scanner_outlined),
+          elevation: 4,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 1)),
+          ),
+          child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            backgroundColor: Colors.white,
+            items: [
+              BottomNavigationBarItem(
+                icon: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.home_outlined,
+                      size: 30,
+                    ),
+                    onPressed: () { },
+                  ),
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                  icon: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.history_edu,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowNotification()));
+                      },
+                    ),
+                  ),
+                  label: 'History'
+              ),
+            ],
+          ),
+        )
     );
   }
 

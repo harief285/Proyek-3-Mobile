@@ -5,18 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:facialcheck/event/event_db.dart';
 
+class Login extends StatelessWidget {
+  final controllerEmail = TextEditingController();
+  final controllerPass = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
-class Login extends StatelessWidget{
-
-  var controllerEmail = TextEditingController();
-  var controllerPass = TextEditingController();
-  var formKey = GlobalKey<FormState>();
-  
-
-
-  Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         return false;
       },
       child: Scaffold(
@@ -26,9 +23,7 @@ class Login extends StatelessWidget{
             Container(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 163,
-                  ),
+                  SizedBox(height: 163),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -36,14 +31,12 @@ class Login extends StatelessWidget{
                         "LOGIN",
                         style: GoogleFonts.inter(
                           fontSize: 25,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(11)),
@@ -52,9 +45,7 @@ class Login extends StatelessWidget{
                     height: 500,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 40,
-                        ),
+                        SizedBox(height: 40),
                         Form(
                           key: formKey,
                           child: Column(
@@ -70,27 +61,23 @@ class Login extends StatelessWidget{
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
+                                    SizedBox(height: 12),
                                     SizedBox(
                                       width: 240,
                                       height: 60,
                                       child: TextFormField(
                                         controller: controllerEmail,
-                                        validator: (value) => value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) =>
+                                            value!.isEmpty ? 'Jangan Kosong' : null,
                                         decoration: InputDecoration(
                                           helperText: ' ',
                                           border: OutlineInputBorder(),
                                           labelText: "Enter your email...",
-                                          labelStyle: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                          prefixIcon: Icon(Icons.person_outline, size: 20,),
+                                          labelStyle: TextStyle(fontSize: 10),
+                                          prefixIcon: Icon(Icons.person_outline, size: 20),
                                         ),
                                       ),
                                     ),
-
                                     Text(
                                       "Password",
                                       style: TextStyle(
@@ -98,24 +85,21 @@ class Login extends StatelessWidget{
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
+                                    SizedBox(height: 12),
                                     SizedBox(
                                       width: 240,
                                       height: 60,
                                       child: TextFormField(
                                         controller: controllerPass,
-                                        validator: (value) => value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) =>
+                                            value!.isEmpty ? 'Jangan Kosong' : null,
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelText: "Enter your password...",
-                                          labelStyle: TextStyle(
-                                            fontSize: 10,
-                                          ),
+                                          labelStyle: TextStyle(fontSize: 10),
                                           helperText: ' ',
-                                          prefixIcon: Icon(Icons.lock_outlined, size: 20,),
+                                          prefixIcon: Icon(Icons.lock_outlined, size: 20),
                                         ),
                                       ),
                                     ),
@@ -128,12 +112,6 @@ class Login extends StatelessWidget{
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     GestureDetector(
-                                      // onTap: () {
-                                      //   Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(builder: (context) => Login()),
-                                      //   );
-                                      // },
                                       child: Text(
                                         "Forgot Password ?",
                                         style: GoogleFonts.inter(
@@ -145,9 +123,7 @@ class Login extends StatelessWidget{
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 12,
-                              ),
+                              SizedBox(height: 12),
                               Container(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -157,17 +133,17 @@ class Login extends StatelessWidget{
                                       width: 240,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff408CFF), // Warna latar belakang tombol
-                                          onPrimary: Colors.black, // Warna teks tombol
+                                          primary: Color(0xff408CFF),
+                                          onPrimary: Colors.black,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(6), // Mengatur tampilan squared (persegi)
+                                            borderRadius: BorderRadius.circular(6),
                                           ),
                                         ),
                                         onPressed: () {
                                           if (formKey.currentState!.validate()) {
-                                          EventDB.login(controllerEmail.text, controllerPass.text);
-                                          controllerEmail.clear();
-                                          controllerPass.clear();
+                                            EventDB.login(controllerEmail.text, controllerPass.text);
+                                            controllerEmail.clear();
+                                            controllerPass.clear();
                                           }
                                         },
                                         child: Text(
@@ -183,29 +159,27 @@ class Login extends StatelessWidget{
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 12,
-                              ),
+                              SizedBox(height: 12),
                               Container(
                                 child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => Register()),
-                                          );
-                                        },
-                                        child: Text(
-                                          "Sign Up",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xff408CFF),
-                                            fontWeight: FontWeight.bold
-                                          ),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => Register()),
+                                        );
+                                      },
+                                      child: Text(
+                                        "Sign Up",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff408CFF),
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -215,11 +189,12 @@ class Login extends StatelessWidget{
                       ],
                     ),
                   ),
-                ]
+                ],
               ),
             )
           ],
-        )),
+        ),
+      ),
     );
   }
 }

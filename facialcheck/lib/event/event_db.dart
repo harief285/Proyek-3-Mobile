@@ -14,31 +14,38 @@ class EventDB{
   static Future<User?> login(String email, String pass) async {
     User? user;
 
-    try{
+    try {
       var response = await http.post(Uri.parse(Api.login), body: {
         'email': email,
         'password': pass
       });
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         var responseBody = jsonDecode(response.body);
-        if(responseBody['success']){
+        if (responseBody['success']) {
           user = User.fromJson(responseBody['user']);
-          EventPref.saveUser(user);
-          Info.snackbar('Login Berhasil');
-          Future.delayed(Duration(milliseconds: 1700),() {
-            Get.off(
-              () => user!.type == '0' ? Dashboard() : Login(),
-            );
-          });
-        }else{
+          if (user.type == '0') {
+            EventPref.saveUser(user);
+            Info.snackbar('Login Berhasil');
+            Future.delayed(Duration(milliseconds: 1700), () {
+              Get.off(() => Dashboard());
+            });
+          } else {
+            EventPref.clear();
+            Info.snackbar('Login Gagal');
+            Future.delayed(Duration(milliseconds: 1700), () {
+              Get.off(() => Login());
+            });
+          }
+        } else {
           Info.snackbar("Login Gagal");
         }
-      }else{
+      } else {
         Info.snackbar("Request Login Gagal");
       }
-    }catch(e){
+    } catch (e) {
       print(e);
+      Info.snackbar("Terjadi kesalahan saat login");
     }
     return user;
   }

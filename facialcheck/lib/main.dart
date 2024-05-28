@@ -1,10 +1,11 @@
-import 'package:facialcheck/page/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'page/login.dart';
+import 'package:facialcheck/page/dashboard.dart';
+import 'package:facialcheck/page/login.dart';
 import 'package:facialcheck/event/event_pref.dart';
 import 'package:facialcheck/model/user.dart';
+
 void main() {
   runApp(const FacialCheck());
 }
@@ -19,21 +20,22 @@ class FacialCheck extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.robotoTextTheme(),
       ),
-      home: FutureBuilder(
+      home: FutureBuilder<User?>(
         future: EventPref.getUser(),
-        builder: (context, AsyncSnapshot<User?> snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data != null) {
               if (snapshot.data!.type == '0') {
                 return Dashboard();
               } else {
-                EventPref.clear();
+                EventPref.clear(); // Clear the session
                 return Login();
               }
             } else {
-              EventPref.clear();
               return Login();
             }
           }
