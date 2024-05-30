@@ -6,6 +6,8 @@ import 'package:facialcheck/model/user.dart';
 import 'package:facialcheck/page/login.dart';
 import 'package:facialcheck/event/event_db.dart';
 import 'package:facialcheck/event/event_pref.dart';
+import 'package:facialcheck/deteksi/camera.dart';
+import 'package:camera/camera.dart';
 
 class Dashboard extends StatefulWidget{
   const Dashboard({Key? key}) : super(key: key);
@@ -163,8 +165,9 @@ class _Dashboard extends State<Dashboard> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=>));
+          onPressed: () async {
+            await availableCameras().then((value) => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
           },
           child: Icon(Icons.document_scanner_outlined),
           elevation: 4,
@@ -187,7 +190,9 @@ class _Dashboard extends State<Dashboard> {
                       Icons.home_outlined,
                       size: 30,
                     ),
-                    onPressed: () { },
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
+                    },
                   ),
                 ),
                 label: 'Home',

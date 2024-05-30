@@ -146,8 +146,8 @@ class Register extends StatelessWidget {
                                       width: 164,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff408CFF), // Warna latar belakang tombol
-                                          onPrimary: Colors.black, // Warna teks tombol
+                                          foregroundColor: Colors.black,
+                                          backgroundColor: Color(0xff408CFF), // Warna teks tombol
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(6), // Mengatur tampilan squared (persegi)
                                           ),

@@ -45,7 +45,7 @@ class EventDB{
       }
     } catch (e) {
       print(e);
-      Info.snackbar("Terjadi kesalahan saat login");
+      Info.snackbar("E-mail atau Password salah!");
     }
     return user;
   }

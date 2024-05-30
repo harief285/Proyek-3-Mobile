@@ -133,8 +133,8 @@ class Login extends StatelessWidget {
                                       width: 240,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          primary: Color(0xff408CFF),
-                                          onPrimary: Colors.black,
+                                          foregroundColor: Colors.black,
+                                          backgroundColor: Color(0xff408CFF),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(6),
                                           ),

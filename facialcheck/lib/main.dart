@@ -32,7 +32,7 @@ class FacialCheck extends StatelessWidget {
               if (snapshot.data!.type == '0') {
                 return Dashboard();
               } else {
-                EventPref.clear(); // Clear the session
+                EventPref.clear();
                 return Login();
               }
             } else {
