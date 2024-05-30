@@ -13,10 +13,10 @@ class ApiResponse {
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(
-      prediction: json['prediction'],
-      percentage: json['percentage'],
-      imagePath: json['image_path'],
-      fileName: json['file_name'],
-      );
+      prediction: json['Prediction'] ?? '',
+      percentage: json['Percentage'] ?? '',
+      imagePath: json['ImagePath'] ?? '',
+      fileName: json['FileName'] ?? '',
+    );
   }
 }

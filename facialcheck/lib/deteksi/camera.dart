@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'dart:convert';
 
 import 'package:facialcheck/model/deteksi_model.dart';
+import 'package:facialcheck/deteksi/preview.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key, required this.cameras}) : super(key: key);
@@ -39,7 +40,12 @@ class _CameraPageState extends State<CameraPage> {
       }
       XFile picture = await _cameraController.takePicture();
       ApiResponse apiResponse = await _uploadPicture(picture);
-      // Lakukan sesuatu dengan respons API, seperti menavigasi ke halaman preview.
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PreviewPage(picture: picture, apiResponse: apiResponse),
+        ),
+      );
     } catch (e) {
       print('Error taking picture: $e');
     }
@@ -47,18 +53,29 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<ApiResponse> _uploadPicture(XFile picture) async {
     try {
-      var request = http.MultipartRequest('POST', Uri.parse('http://103.149.71.213/prediksi'));
+      var request = http.MultipartRequest('POST', Uri.parse('https://kikischwarzer-facialparalysis.hf.space/screening'));
       request.files.add(await http.MultipartFile.fromPath('file', picture.path));
       var response = await request.send();
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(await response.stream.bytesToString());
-        return ApiResponse.fromJson(responseData['data']);
+        final responseString = await response.stream.bytesToString();
+        final Map<String, dynamic>? responseData = json.decode(responseString);
+        if (responseData != null) {
+          return ApiResponse.fromJson(responseData);
+        } else {
+          print('Error: responseData is null');
+          return ApiResponse(
+            prediction: 'Error: responseData is null',
+            percentage: '0',
+            imagePath: '',
+            fileName: '',
+          );
+        }
       } else {
         print('Failed to upload picture. Status code: ${response.statusCode}');
         return ApiResponse(
-          prediction: '',
-          percentage: '',
+          prediction: 'Error: status code ${response.statusCode}',
+          percentage: '0',
           imagePath: '',
           fileName: '',
         );
@@ -66,8 +83,8 @@ class _CameraPageState extends State<CameraPage> {
     } catch (e) {
       print('Error uploading picture: $e');
       return ApiResponse(
-        prediction: '',
-        percentage: '',
+        prediction: 'Error uploading picture',
+        percentage: '0',
         imagePath: '',
         fileName: '',
       );
