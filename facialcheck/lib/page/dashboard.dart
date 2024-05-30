@@ -197,7 +197,7 @@ class _Dashboard extends State<Dashboard> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                      image: AssetImage('assets/img/banner1.jpg'),
+                      image: AssetImage('assets/img/slide1.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -207,7 +207,7 @@ class _Dashboard extends State<Dashboard> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                      image: AssetImage('assets/img/kobo2.jpg'),
+                      image: AssetImage('assets/img/slide2.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -217,7 +217,7 @@ class _Dashboard extends State<Dashboard> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                      image: AssetImage('assets/img/kobo2.jpg'),
+                      image: AssetImage('assets/img/slide3.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -235,16 +235,59 @@ class _Dashboard extends State<Dashboard> {
               ),
             ),
             SizedBox(height: 20),
-            Text(
-              "Selamat Datang di Aplikasi Kami",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "Ini adalah artikel yang memiliki carousel untuk menampilkan beberapa gambar. Carousel ini dibuat menggunakan package carousel_slider dari Flutter. Anda dapat menyesuaikan carousel ini sesuai kebutuhan aplikasi Anda.",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Icon(Icons.article, color: Color(0xff408CFF)),
+                  SizedBox(width: 8),
+                  Text(
+                    "Artikel",
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff545454),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16.0),
+                itemCount: 4, // Ganti dengan jumlah artikel yang sebenarnya
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Color(0xffE0FFE0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        "Pola hidup sehat",
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff545454),
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Prof Dewi Dummy",
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Color(0xff545454),
+                        ),
+                      ),
+                      trailing: Wrap(
+                        spacing: 12,
+                        children: <Widget>[
+                          Icon(Icons.book, color: Color(0xff408CFF)),
+                          Icon(Icons.auto_awesome, color: Color(0xff408CFF)),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
