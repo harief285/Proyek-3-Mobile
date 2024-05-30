@@ -18,15 +18,26 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   late CameraController _cameraController;
+  late bool _isFrontCamera;
 
   @override
   void initState() {
     super.initState();
+    _isFrontCamera = true;
     _initCamera();
   }
 
   void _initCamera() async {
-    _cameraController = CameraController(widget.cameras![0], ResolutionPreset.high);
+    CameraDescription selectedCamera;
+    if (_isFrontCamera) {
+      selectedCamera = widget.cameras!.firstWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => widget.cameras![0],
+      );
+    } else {
+      selectedCamera = widget.cameras![0];
+    }
+    _cameraController = CameraController(selectedCamera, ResolutionPreset.high);
     await _cameraController.initialize();
     if (mounted) {
       setState(() {});
@@ -43,7 +54,8 @@ class _CameraPageState extends State<CameraPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PreviewPage(picture: picture, apiResponse: apiResponse),
+          builder: (context) =>
+              PreviewPage(picture: picture, apiResponse: apiResponse),
         ),
       );
     } catch (e) {
@@ -53,8 +65,12 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<ApiResponse> _uploadPicture(XFile picture) async {
     try {
-      var request = http.MultipartRequest('POST', Uri.parse('https://kikischwarzer-facialparalysis.hf.space/screening'));
-      request.files.add(await http.MultipartFile.fromPath('file', picture.path));
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'https://kikischwarzer-facialparalysis.hf.space/screening'));
+      request.files
+          .add(await http.MultipartFile.fromPath('file', picture.path));
       var response = await request.send();
 
       if (response.statusCode == 200) {
@@ -91,6 +107,11 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  void _toggleCamera() {
+    _isFrontCamera = !_isFrontCamera;
+    _initCamera();
+  }
+
   @override
   void dispose() {
     _cameraController.dispose();
@@ -103,7 +124,10 @@ class _CameraPageState extends State<CameraPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text('Camera Page', style: TextStyle(color: Color(0xff545454)),),
+        title: Text(
+          'Camera Page',
+          style: TextStyle(color: Color(0xff545454)),
+        ),
         iconTheme: IconThemeData(color: Color(0xff545454)),
       ),
       body: Stack(
@@ -127,9 +151,43 @@ class _CameraPageState extends State<CameraPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: _takePicture,
-        child: Icon(Icons.camera, color: Colors.black,),
+        child: Icon(
+          Icons.camera,
+          color: Colors.black,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
+        child: IconButton(
+          icon: Icon(Icons.flip_camera_android),
+          onPressed: _toggleCamera,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  runApp(MyApp(cameras: cameras));
+}
+
+class MyApp extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+  const MyApp({Key? key, required this.cameras}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Camera App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: CameraPage(cameras: cameras),
     );
   }
 }
