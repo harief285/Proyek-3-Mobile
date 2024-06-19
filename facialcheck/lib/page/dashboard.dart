@@ -1,15 +1,12 @@
-import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:facialcheck/model/user.dart';
 import 'package:facialcheck/page/login.dart';
 import 'package:facialcheck/event/event_db.dart';
 import 'package:facialcheck/event/event_pref.dart';
-import 'package:facialcheck/deteksi/camera.dart';
-import 'package:camera/camera.dart';
 
-class Dashboard extends StatefulWidget{
+class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
   @override
@@ -17,21 +14,17 @@ class Dashboard extends StatefulWidget{
 }
 
 class _Dashboard extends State<Dashboard> {
-
   List<User> totalUser = [];
+  String userName = ""; // Initialize with a default value
 
-  late String userName ;
-
-  void getUser() async{
+  void getUser() async {
     totalUser = await EventDB.getUser();
     userName = (await EventPref.getUser())?.name ?? "";
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getUser();
   }
@@ -39,21 +32,24 @@ class _Dashboard extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Color(0xff545454)),
-        toolbarHeight: MediaQuery.of(context).size.height*0.1,
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(color: Color(0xff545454)),
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+          title: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
                     children: [
-                      Image.asset("assets/img/profile.png", width: MediaQuery.of(context).size.width * 0.08,),
+                      Image.asset(
+                        "assets/img/profile.png",
+                        width: MediaQuery.of(context).size.width * 0.08,
+                      ),
                       SizedBox(
                         width: 15,
                       ),
@@ -62,10 +58,13 @@ class _Dashboard extends State<Dashboard> {
                         children: [
                           Row(
                             children: [
-                              Text("Hi, Dummy" , style: GoogleFonts.inter(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),),
+                              Text(
+                                "Hi, $userName",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -75,18 +74,26 @@ class _Dashboard extends State<Dashboard> {
                   Row(
                     children: [
                       PopupMenuButton(
-                        child: Image.asset("assets/img/menu.png", width: MediaQuery.of(context).size.width * 0.04),
+                        child: Image.asset("assets/img/menu.png",
+                            width: MediaQuery.of(context).size.width * 0.04),
                         itemBuilder: (context) {
                           return [
                             PopupMenuItem<int>(
                               value: 0,
                               child: Row(
                                 children: [
-                                  Icon(Icons.settings, size: 15, color: Colors.black45,),
+                                  Icon(
+                                    Icons.settings,
+                                    size: 15,
+                                    color: Colors.black45,
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("Setting", style: TextStyle(fontSize: 12),)
+                                  Text(
+                                    "Setting",
+                                    style: TextStyle(fontSize: 12),
+                                  )
                                 ],
                               ),
                             ),
@@ -94,18 +101,25 @@ class _Dashboard extends State<Dashboard> {
                               value: 1,
                               child: Row(
                                 children: [
-                                  Icon(Icons.logout, size: 15, color: Colors.black45,),
+                                  Icon(
+                                    Icons.logout,
+                                    size: 15,
+                                    color: Colors.black45,
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("LogOut", style: TextStyle(fontSize: 12),)
+                                  Text(
+                                    "LogOut",
+                                    style: TextStyle(fontSize: 12),
+                                  )
                                 ],
                               ),
                             ),
                           ];
                         },
                         onSelected: (value) {
-                          if(value == 0) {
+                          if (value == 0) {
                             print("settings");
                           } else if (value == 1) {
                             showDialog(
@@ -115,10 +129,16 @@ class _Dashboard extends State<Dashboard> {
                                   title: Row(
                                     children: [
                                       Icon(Icons.warning_amber),
-                                      Text("LogOut", style: TextStyle(fontSize: 12),)
+                                      Text(
+                                        "LogOut",
+                                        style: TextStyle(fontSize: 12),
+                                      )
                                     ],
                                   ),
-                                  content: Text("Apakah anda yakin ingin keluar?", style: TextStyle(fontSize: 12),),
+                                  content: Text(
+                                    "Apakah anda yakin ingin keluar?",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                   actions: [
                                     OutlinedButton(
                                       onPressed: () {
@@ -129,7 +149,10 @@ class _Dashboard extends State<Dashboard> {
                                     ElevatedButton(
                                       onPressed: () {
                                         EventPref.clear();
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Login()));
                                       },
                                       child: Text("Ya"),
                                     ),
@@ -142,32 +165,136 @@ class _Dashboard extends State<Dashboard> {
                       ),
                     ],
                   ),
-              ],
-            ),
-            Row(
-              children: [
-                Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ],
+              ),
+              Row(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
-                          Column(
-                            children: [
-                              Text("Selamat datang di Aplikasi Facial Check",
-                              style: GoogleFonts.roboto(
-                                fontSize: 10,
-                                color: Color(0xff408CFF)),),
-                            ],
-                          )
+                          Text(
+                            "Selamat datang di Aplikasi Facial Check",
+                            style: GoogleFonts.roboto(
+                                fontSize: 10, color: Color(0xff408CFF)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        body: Column(
+          children: [
+            CarouselSlider(
+              items: [
+                Container(
+                  margin: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/img/slide1.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/img/slide2.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/img/slide3.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+              options: CarouselOptions(
+                height: 200.0,
+                enlargeCenterPage: true,
+                autoPlay: true,
+                aspectRatio: 16 / 9,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enableInfiniteScroll: true,
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                viewportFraction: 0.8,
+              ),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Icon(Icons.article, color: Color(0xff408CFF)),
+                  SizedBox(width: 8),
+                  Text(
+                    "Artikel",
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff545454),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16.0),
+                itemCount: 4, // Ganti dengan jumlah artikel yang sebenarnya
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Color(0xffE0FFE0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        "Pola hidup sehat",
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff545454),
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Prof Dewi Dummy",
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Color(0xff545454),
+                        ),
+                      ),
+                      trailing: Wrap(
+                        spacing: 12,
+                        children: <Widget>[
+                          Icon(Icons.book, color: Color(0xff408CFF)),
+                          Icon(Icons.auto_awesome, color: Color(0xff408CFF)),
                         ],
                       ),
-              ],
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await availableCameras().then((value) => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=>));
           },
           child: Icon(Icons.document_scanner_outlined),
           elevation: 4,
@@ -175,7 +302,8 @@ class _Dashboard extends State<Dashboard> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 1)),
+            border: Border.symmetric(
+                horizontal: BorderSide(color: Color(0xffCCCCCC), width: 1)),
           ),
           child: BottomNavigationBar(
             showSelectedLabels: false,
@@ -190,9 +318,7 @@ class _Dashboard extends State<Dashboard> {
                       Icons.home_outlined,
                       size: 30,
                     ),
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
-                    },
+                    onPressed: () {},
                   ),
                 ),
                 label: 'Home',
@@ -210,12 +336,9 @@ class _Dashboard extends State<Dashboard> {
                       },
                     ),
                   ),
-                  label: 'History'
-              ),
+                  label: 'History'),
             ],
           ),
-        )
-    );
+        ));
   }
-
 }

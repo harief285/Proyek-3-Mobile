@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:facialcheck/event/event_db.dart';
 
 class Register extends StatelessWidget {
-
   var controllerName = TextEditingController();
   var controllerEmail = TextEditingController();
   var controllerPass = TextEditingController();
@@ -14,7 +13,7 @@ class Register extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         return false;
       },
       child: Scaffold(
@@ -33,9 +32,7 @@ class Register extends StatelessWidget {
                       Text(
                         "SIGN UP",
                         style: GoogleFonts.inter(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -60,14 +57,19 @@ class Register extends StatelessWidget {
                                       height: 35,
                                       child: TextFormField(
                                         controller: controllerName,
-                                        validator: (value) => value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) => value!.isEmpty
+                                            ? 'Jangan Kosong'
+                                            : null,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelText: "Type your name...",
                                           labelStyle: TextStyle(
                                             fontSize: 10,
                                           ),
-                                          prefixIcon: Icon(Icons.person_outline, size: 20,),
+                                          prefixIcon: Icon(
+                                            Icons.person_outline,
+                                            size: 20,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -79,14 +81,19 @@ class Register extends StatelessWidget {
                                       height: 35,
                                       child: TextFormField(
                                         controller: controllerEmail,
-                                        validator: (value) => value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) => value!.isEmpty
+                                            ? 'Jangan Kosong'
+                                            : null,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelText: "Type your email...",
                                           labelStyle: TextStyle(
                                             fontSize: 10,
                                           ),
-                                          prefixIcon: Icon(Icons.person_outline, size: 20,),
+                                          prefixIcon: Icon(
+                                            Icons.person_outline,
+                                            size: 20,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -98,7 +105,9 @@ class Register extends StatelessWidget {
                                       height: 35,
                                       child: TextFormField(
                                         controller: controllerPass,
-                                        validator: (value) => value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) => value!.isEmpty
+                                            ? 'Jangan Kosong'
+                                            : null,
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
@@ -106,7 +115,10 @@ class Register extends StatelessWidget {
                                           labelStyle: TextStyle(
                                             fontSize: 10,
                                           ),
-                                          prefixIcon: Icon(Icons.lock_outlined, size: 20,),
+                                          prefixIcon: Icon(
+                                            Icons.lock_outlined,
+                                            size: 20,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -118,7 +130,9 @@ class Register extends StatelessWidget {
                                       height: 35,
                                       child: TextFormField(
                                         controller: controllerPasscek,
-                                        validator: (value) => value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) => value!.isEmpty
+                                            ? 'Jangan Kosong'
+                                            : null,
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
@@ -126,8 +140,10 @@ class Register extends StatelessWidget {
                                           labelStyle: TextStyle(
                                             fontSize: 10,
                                           ),
-                                          
-                                          prefixIcon: Icon(Icons.lock_outlined, size: 20,),
+                                          prefixIcon: Icon(
+                                            Icons.lock_outlined,
+                                            size: 20,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -139,7 +155,8 @@ class Register extends StatelessWidget {
                               ),
                               Container(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     SizedBox(
                                       height: 30,
@@ -147,18 +164,25 @@ class Register extends StatelessWidget {
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           foregroundColor: Colors.black,
-                                          backgroundColor: Color(0xff408CFF), // Warna teks tombol
+                                          backgroundColor: Color(
+                                              0xff408CFF), // Warna teks tombol
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(6), // Mengatur tampilan squared (persegi)
+                                            borderRadius: BorderRadius.circular(
+                                                6), // Mengatur tampilan squared (persegi)
                                           ),
                                         ),
                                         onPressed: () {
-                                          if (formKey.currentState!.validate()) {
-                                          EventDB.addUser(controllerName.text, controllerEmail.text, controllerPass.text, controllerPasscek.text);
-                                          controllerName.clear();
-                                          controllerEmail.clear();
-                                          controllerPass.clear();
-                                          controllerPasscek.clear();
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            EventDB.addUser(
+                                                controllerName.text,
+                                                controllerEmail.text,
+                                                controllerPass.text,
+                                                controllerPasscek.text);
+                                            controllerName.clear();
+                                            controllerEmail.clear();
+                                            controllerPass.clear();
+                                            controllerPasscek.clear();
                                           }
                                         },
                                         child: Text(
@@ -179,31 +203,30 @@ class Register extends StatelessWidget {
                               ),
                               Container(
                                 child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => Login()),
-                                          );
-                                        },
-                                        child: Text(
-                                          "Sign In",
-                                          style: TextStyle(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Login()),
+                                        );
+                                      },
+                                      child: Text(
+                                        "Sign In",
+                                        style: TextStyle(
                                             fontSize: 12,
                                             color: Color(0xff408CFF),
-                                            fontWeight: FontWeight.bold
-                                          ),
-                                        ),
+                                            fontWeight: FontWeight.bold),
                                       ),
+                                    ),
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   )

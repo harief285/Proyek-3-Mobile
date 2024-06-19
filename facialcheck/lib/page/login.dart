@@ -67,14 +67,16 @@ class Login extends StatelessWidget {
                                       height: 60,
                                       child: TextFormField(
                                         controller: controllerEmail,
-                                        validator: (value) =>
-                                            value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) => value!.isEmpty
+                                            ? 'Jangan Kosong'
+                                            : null,
                                         decoration: InputDecoration(
                                           helperText: ' ',
                                           border: OutlineInputBorder(),
                                           labelText: "Enter your email...",
                                           labelStyle: TextStyle(fontSize: 10),
-                                          prefixIcon: Icon(Icons.person_outline, size: 20),
+                                          prefixIcon: Icon(Icons.person_outline,
+                                              size: 20),
                                         ),
                                       ),
                                     ),
@@ -91,15 +93,17 @@ class Login extends StatelessWidget {
                                       height: 60,
                                       child: TextFormField(
                                         controller: controllerPass,
-                                        validator: (value) =>
-                                            value!.isEmpty ? 'Jangan Kosong' : null,
+                                        validator: (value) => value!.isEmpty
+                                            ? 'Jangan Kosong'
+                                            : null,
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelText: "Enter your password...",
                                           labelStyle: TextStyle(fontSize: 10),
                                           helperText: ' ',
-                                          prefixIcon: Icon(Icons.lock_outlined, size: 20),
+                                          prefixIcon: Icon(Icons.lock_outlined,
+                                              size: 20),
                                         ),
                                       ),
                                     ),
@@ -126,7 +130,8 @@ class Login extends StatelessWidget {
                               SizedBox(height: 12),
                               Container(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     SizedBox(
                                       height: 30,
@@ -136,12 +141,15 @@ class Login extends StatelessWidget {
                                           foregroundColor: Colors.black,
                                           backgroundColor: Color(0xff408CFF),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(6),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
                                           ),
                                         ),
                                         onPressed: () {
-                                          if (formKey.currentState!.validate()) {
-                                            EventDB.login(controllerEmail.text, controllerPass.text);
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            EventDB.login(controllerEmail.text,
+                                                controllerPass.text);
                                             controllerEmail.clear();
                                             controllerPass.clear();
                                           }
@@ -168,7 +176,8 @@ class Login extends StatelessWidget {
                                       onTap: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => Register()),
+                                          MaterialPageRoute(
+                                              builder: (context) => Register()),
                                         );
                                       },
                                       child: Text(
