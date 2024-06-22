@@ -1,4 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:facialcheck/deteksi/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:facialcheck/model/user.dart';
@@ -190,50 +192,6 @@ class _Dashboard extends State<Dashboard> {
         ),
         body: Column(
           children: [
-            CarouselSlider(
-              items: [
-                Container(
-                  margin: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: AssetImage('assets/img/slide1.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: AssetImage('assets/img/slide2.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: AssetImage('assets/img/slide3.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-              options: CarouselOptions(
-                height: 200.0,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                aspectRatio: 16 / 9,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                viewportFraction: 0.8,
-              ),
-            ),
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -293,8 +251,9 @@ class _Dashboard extends State<Dashboard> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=>));
+          onPressed: () async {
+            await availableCameras().then((value) => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
           },
           child: Icon(Icons.document_scanner_outlined),
           elevation: 4,
