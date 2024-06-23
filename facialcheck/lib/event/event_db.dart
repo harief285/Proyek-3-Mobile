@@ -113,7 +113,6 @@ class EventDB{
         });
 
       if (response.statusCode == 200) {
-        Info.snackbar("Data Tersimpan");
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
               Dashboard(),
