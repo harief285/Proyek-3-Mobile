@@ -3,21 +3,42 @@ import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:facialcheck/model/deteksi_model.dart';
+import 'package:facialcheck/event/event_db.dart';
+import 'package:facialcheck/event/event_pref.dart';
+import 'package:path/path.dart' as path;
 
-class PreviewPage extends StatelessWidget {
+class PreviewPage extends StatefulWidget {
   const PreviewPage({Key? key, required this.picture, required this.apiResponse}) : super(key: key);
 
   final XFile picture;
   final ApiResponse apiResponse;
 
+  @override
+  _PreviewPageState createState() => _PreviewPageState();
+}
+
+class _PreviewPageState extends State<PreviewPage> {
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserId();
+  }
+
+  Future<void> _getUserId() async {
+    userId = (await EventPref.getUser())?.id;
+    setState(() {});
+  }
+
   Future<void> uploadImage() async {
     try {
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://facialcek.istoree.my.id/api/upload-image'),  // Pastikan URL ini benar
+        Uri.parse('https://facialcek.istoree.my.id/api/upload-image'),
       );
 
-      request.files.add(await http.MultipartFile.fromPath('image', picture.path));
+      request.files.add(await http.MultipartFile.fromPath('image', widget.picture.path));
 
       var response = await request.send();
 
@@ -33,6 +54,8 @@ class PreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String fileName = path.basename(widget.picture.path);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,7 +70,7 @@ class PreviewPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         children: [
           Image.file(
-            File(picture.path),
+            File(widget.picture.path),
             fit: BoxFit.cover,
           ),
           SizedBox(height: 24),
@@ -70,13 +93,13 @@ class PreviewPage extends StatelessWidget {
               DataRow(
                 cells: [
                   DataCell(Text("Prediksi: ")),
-                  DataCell(Text(apiResponse.prediction)),
+                  DataCell(Text(widget.apiResponse.prediction)),
                 ],
               ),
               DataRow(
                 cells: [
                   DataCell(Text("Persentase: ")),
-                  DataCell(Text(apiResponse.percentage)),
+                  DataCell(Text(widget.apiResponse.percentage)),
                 ],
               ),
             ],
@@ -86,9 +109,21 @@ class PreviewPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await uploadImage();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Gambar berhasil diunggah')),
-          );
+          if (userId != null) {
+            EventDB.addRiwayat(
+              userId!,
+              widget.apiResponse.prediction,
+              widget.apiResponse.percentage,
+              fileName,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Riwayat berhasil disimpan')),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Gagal mendapatkan userId')),
+            );
+          }
         },
         child: Icon(Icons.save),
       ),

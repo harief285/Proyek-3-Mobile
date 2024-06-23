@@ -91,7 +91,7 @@ class Register extends StatelessWidget {
                                             fontSize: 10,
                                           ),
                                           prefixIcon: Icon(
-                                            Icons.person_outline,
+                                            Icons.mail_outline,
                                             size: 20,
                                           ),
                                         ),

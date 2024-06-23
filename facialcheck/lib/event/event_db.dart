@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:facialcheck/model/riwayat.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
@@ -85,6 +86,37 @@ class EventDB{
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
               Login(),
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<Riwayat?> addRiwayat(String userId, String prediksi, String Persentase, String gambar) async {
+    
+    try {
+      String currentTimestamp = DateTime.now().toIso8601String();
+      int persen = int.parse(Persentase)*100;
+
+      var response = await http.post(Uri.parse(Api.add_riwayat), body: {
+        'user_id': userId,
+        'prediksi': prediksi,
+        'presentase': persen.toString(),
+        'gambar': gambar,
+        'created_at':currentTimestamp,
+        'updated_at':currentTimestamp
+        });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Tersimpan");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              Dashboard(),
           );
         });
       } else {
