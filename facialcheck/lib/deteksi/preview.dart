@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-import 'dart:math';
 import 'package:facialcheck/model/deteksi_model.dart';
 import 'package:facialcheck/event/event_db.dart';
 import 'package:facialcheck/event/event_pref.dart';
@@ -20,22 +19,11 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   String? userId;
-  late String randomFileName;
-  late String newPath;
 
   @override
   void initState() {
     super.initState();
     _getUserId();
-    randomFileName = generateRandomFileName() + '.jpg';
-    print('Generated random filename: $randomFileName');
-    newPath = path.join(path.dirname(widget.picture.path), randomFileName);
-    _renameFile();
-  }
-
-  Future<void> _renameFile() async {
-    await File(widget.picture.path).rename(newPath);
-    setState(() {});
   }
 
   Future<void> _getUserId() async {
@@ -50,7 +38,7 @@ class _PreviewPageState extends State<PreviewPage> {
         Uri.parse('https://facialcek.istoree.my.id/api/upload-image'),
       );
 
-      request.files.add(await http.MultipartFile.fromPath('image', newPath));
+      request.files.add(await http.MultipartFile.fromPath('image', widget.picture.path));
 
       var response = await request.send();
 
@@ -64,13 +52,10 @@ class _PreviewPageState extends State<PreviewPage> {
     }
   }
 
-  String generateRandomFileName() {
-    var rand = Random();
-    return List.generate(10, (_) => rand.nextInt(10).toString()).join();
-  }
-
   @override
   Widget build(BuildContext context) {
+    String fileName = path.basename(widget.picture.path);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -85,7 +70,7 @@ class _PreviewPageState extends State<PreviewPage> {
         padding: EdgeInsets.all(16),
         children: [
           Image.file(
-            File(newPath),
+            File(widget.picture.path),
             fit: BoxFit.cover,
           ),
           SizedBox(height: 24),
@@ -129,7 +114,7 @@ class _PreviewPageState extends State<PreviewPage> {
               userId!,
               widget.apiResponse.prediction,
               widget.apiResponse.percentage,
-              randomFileName,
+              fileName,
             );
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Riwayat berhasil disimpan')),

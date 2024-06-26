@@ -14,7 +14,7 @@ class ApiResponse {
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(
       prediction: json['Prediction'] ?? '',
-      percentage: json['Percentage'] ?? '',
+      percentage: json['Percentage'].toString(),
       imagePath: json['ImagePath'] ?? '',
       fileName: json['FileName'] ?? '',
     );

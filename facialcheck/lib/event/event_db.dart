@@ -106,7 +106,7 @@ class EventDB{
       var response = await http.post(Uri.parse(Api.add_riwayat), body: {
         'user_id': userId,
         'prediksi': prediksi,
-        'presentase': persen.toString(),
+        'presentase': persen.toString,
         'gambar': gambar,
         'created_at':currentTimestamp,
         'updated_at':currentTimestamp
