@@ -1,39 +1,39 @@
 class Riwayat {
   String? id;
-  String? user_id;
+  String? userId;
   String? prediksi;
-  String? percentage;
+  String? presentase; // Menggunakan presentase sesuai dengan database
   String? gambar;
   String? createdAt;
-  String? updateAt;
+  String? updatedAt;
 
   Riwayat({
     required this.id,
-    required this.user_id,
+    required this.userId,
     required this.prediksi,
-    required this.percentage,
+    required this.presentase, // Menggunakan presentase sesuai dengan database
     required this.gambar,
     required this.createdAt,
-    required this.updateAt,
+    required this.updatedAt,
   });
 
   factory Riwayat.fromJson(Map<String, dynamic> json) => Riwayat(
     id: json["id"],
-    user_id: json["user_id"],
+    userId: json["user_id"],
     prediksi: json["prediksi"],
-    percentage: json["percentage"],
+    presentase: json["presentase"], // Menggunakan presentase sesuai dengan database
     gambar: json["gambar"],
     createdAt: json["created_at"],
-    updateAt: json["update_at"],
+    updatedAt: json["updated_at"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "user_id": user_id,
+    "user_id": userId,
     "prediksi": prediksi,
-    "Persentase": percentage,
+    "presentase": presentase, // Menggunakan presentase sesuai dengan database
     "gambar": gambar,
     "created_at": createdAt,
-    "update_at": updateAt,
+    "updated_at": updatedAt,
   };
 }

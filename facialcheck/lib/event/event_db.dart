@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:facialcheck/model/riwayat.dart';
+import 'package:facialcheck/page/list_riwayat.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
@@ -100,16 +102,16 @@ class EventDB{
   static Future<Riwayat?> addRiwayat(String userId, String prediksi, String Persentase, String gambar) async {
     
     try {
-      String currentTimestamp = DateTime.now().toIso8601String();
-      int persen = int.parse(Persentase)*100;
+      double persen = double.parse(Persentase)*100;
+
+      int persen2 = persen.toInt();
+
 
       var response = await http.post(Uri.parse(Api.add_riwayat), body: {
         'user_id': userId,
         'prediksi': prediksi,
-        'presentase': persen.toString,
+        'presentase': persen2.toString(),
         'gambar': gambar,
-        'created_at':currentTimestamp,
-        'updated_at':currentTimestamp
         });
 
       if (response.statusCode == 200) {
@@ -125,5 +127,28 @@ class EventDB{
     } catch (e) {
       print(e);
     }
+  }
+
+
+  static Future<List<Riwayat>> getRiwayat(String id) async {
+    List<Riwayat> listRiwayat = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_riwayat), body: {
+        'user_id': id,
+      });
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var riwayats = responseBody['user'];
+          for (var riwayat in riwayats) {
+            listRiwayat.add(Riwayat.fromJson(riwayat));
+          }
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listRiwayat;
   }
 }

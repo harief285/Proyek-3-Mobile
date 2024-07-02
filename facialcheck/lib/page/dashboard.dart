@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:facialcheck/deteksi/camera.dart';
+import 'package:facialcheck/page/list_riwayat.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:facialcheck/model/user.dart';
@@ -17,11 +18,14 @@ class Dashboard extends StatefulWidget {
 
 class _Dashboard extends State<Dashboard> {
   List<User> totalUser = [];
-  String userName = ""; // Initialize with a default value
+  String userName = "";
+  String setid = "";
+   // Initialize with a default value
 
   void getUser() async {
     totalUser = await EventDB.getUser();
     userName = (await EventPref.getUser())?.name ?? "";
+    setid = (await EventPref.getUser())?.id ?? "";
     setState(() {});
   }
 
@@ -291,7 +295,7 @@ class _Dashboard extends State<Dashboard> {
                         size: 30,
                       ),
                       onPressed: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowNotification()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ListRiwayat(setid: setid,)));
                       },
                     ),
                   ),
